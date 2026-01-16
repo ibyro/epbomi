@@ -1,0 +1,16 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}Administration | EPBOMI{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+    <a href="{% url 'admin:index' %}">
+        <img src="{% static 'images/logo.png' %}" alt="Logo"
+             style="height: 45px; vertical-align: middle; margin-right: 10px;">
+        Gestion des invités EPBOMI
+    </a>
+</h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

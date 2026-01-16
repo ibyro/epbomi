@@ -1,0 +1,208 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gestion des invités</title>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+<link rel="stylesheet" href="{% static 'style.css' %}">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="{% static 'script.js' %}"></script>
+</head>
+
+<body>
+
+<div class="container">
+<div class="table-wrapper">
+
+    <div class="table-title">
+        <div class="row">
+            <div class="col-sm-6">
+                <h2>Gestion <b>des invités</b></h2>
+            </div>
+
+            <div class="col-sm-6">
+                <a href="#addInviteModal" class="btn btn-success" data-toggle="modal">
+                    <i class="material-icons">&#xE147;</i> <span>Ajouter un invité</span>
+                </a>
+
+                <a href="#deleteMultipleInviteModal" class="btn btn-danger" id="deleteSelected" style="display:none;" data-toggle="modal">
+                    <i class="material-icons">&#xE872;</i> <span>Supprimer la sélection</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+<table class="table table-striped table-hover">
+<thead>
+<tr>
+    <th>
+        <span class="custom-checkbox">
+            <input type="checkbox" id="selectAll">
+            <label for="selectAll"></label>
+        </span>
+    </th>
+
+    <th>Nom</th>
+    <th>Prénom</th>
+    <th>Téléphone</th>
+    <th>Date invitation</th>
+    <th>Commune</th>
+    <th>Quartier</th>
+    <th>Invité par</th>
+    <th>Motif de présence</th>
+    <th>Communauté d'origine</th>
+    <th>Actions</th>
+</tr>
+</thead>
+
+<tbody>
+
+{% for invite in invites %}
+<tr>
+
+<td>
+    <span class="custom-checkbox">
+        <input type="checkbox" class="selectInvite" value="{{ invite.id }}">
+        <label></label>
+    </span>
+</td>
+
+<td>{{ invite.nom }}</td>
+<td>{{ invite.prenom }}</td>
+<td>{{ invite.telephone }}</td>
+<td>{{ invite.dateinvitation }}</td>
+<td>{{ invite.commune }}</td>
+<td>{{ invite.quartier }}</td>
+<td>{{ invite.invitepar }}</td>
+<td>{{ invite.motifdepresence }}</td>
+<td>{{ invite.communauteorigine }}</td>
+
+<td>
+    <a href="#editInviteModal{{ invite.id }}" class="edit" data-toggle="modal">
+        <i class="material-icons" data-toggle="tooltip" title="Modifier">&#xE254;</i>
+    </a>
+
+    <a href="#deleteInviteModal{{ invite.id }}" class="delete" data-toggle="modal">
+        <i class="material-icons" data-toggle="tooltip" title="Supprimer">&#xE872;</i>
+    </a>
+</td>
+
+</tr>
+
+<!-- MODAL EDIT -->
+<div id="editInviteModal{{ invite.id }}" class="modal fade">
+<div class="modal-dialog">
+<div class="modal-content">
+
+<form method="post" action="{% url 'invite-edit' invite.id %}">
+{% csrf_token %}
+
+<div class="modal-header">
+    <h4 class="modal-title">Modifier un invité</h4>
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+</div>
+
+<div class="modal-body">
+
+    <div class="form-group">
+        <label>Nom</label>
+        <input type="text" class="form-control" name="nom" value="{{ invite.nom }}" required>
+    </div>
+
+    <div class="form-group">
+        <label>Prénom</label>
+        <input type="text" class="form-control" name="prenom" value="{{ invite.prenom }}" required>
+    </div>
+
+    <div class="form-group">
+        <label>Téléphone</label>
+        <input type="text" class="form-control" name="telephone" value="{{ invite.telephone }}" required>
+    </div>
+
+    <div class="form-group">
+        <label>Date d'invitation</label>
+        <input type="datetime-local" class="form-control" name="dateinvitation" value="{{ invite.dateinvitation|date:'Y-m-d\\TH:i' }}">
+    </div>
+
+    <div class="form-group">
+        <label>Commune</label>
+        <input type="text" class="form-control" name="commune" value="{{ invite.commune }}">
+    </div>
+
+    <div class="form-group">
+        <label>Quartier</label>
+        <input type="text" class="form-control" name="quartier" value="{{ invite.quartier }}">
+    </div>
+
+    <div class="form-group">
+        <label>Invité par</label>
+        <input type="text" class="form-control" name="invitepar" value="{{ invite.invitepar }}">
+    </div>
+
+    <div class="form-group">
+        <label>Motif de présence</label>
+        <input type="text" class="form-control" name="motifdepresence" value="{{ invite.motifdepresence }}">
+    </div>
+
+    <div class="form-group">
+        <label>Communauté d'origine</label>
+        <input type="text" class="form-control" name="communauteorigine" value="{{ invite.communauteorigine }}">
+    </div>
+
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+    <button type="submit" class="btn btn-info">Enregistrer</button>
+</div>
+
+</form>
+</div>
+</div>
+</div>
+
+<!-- MODAL DELETE -->
+<div id="deleteInviteModal{{ invite.id }}" class="modal fade">
+<div class="modal-dialog">
+<div class="modal-content">
+
+<form method="post" action="{% url 'invite-delete' invite.id %}">
+{% csrf_token %}
+
+<div class="modal-header">
+<h4 class="modal-title">Supprimer un invité</h4>
+<button type="button" class="close" data-dismiss="modal">&times;</button>
+</div>
+
+<div class="modal-body">
+<p>Confirmez-vous la suppression de cet invité ?</p>
+<p class="text-warning"><small>Action irréversible.</small></p>
+</div>
+
+<div class="modal-footer">
+<button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+<button type="submit" class="btn btn-danger">Supprimer</button>
+</div>
+
+</form>
+
+</div>
+</div>
+</div>
+
+{% endfor %}
+</tbody>
+</table>
+</div>
+</div>
+</body>
+</html>

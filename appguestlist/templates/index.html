@@ -1,0 +1,124 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Tableau de bord – Gestion des invités</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f5f6fa;
+        }
+        .card-kpi {
+            border-left: 5px solid #0d6efd;
+        }
+        .table img {
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-fluid p-4">
+
+    <!-- Titre -->
+    <h2 class="mb-4">Tableau de bord – Gestion des invités</h2>
+
+    <!-- KPIs -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card card-kpi shadow-sm">
+                <div class="card-body">
+                    <h6>Total invités</h6>
+                    <h3>{{ total_invites }}</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card card-kpi shadow-sm">
+                <div class="card-body">
+                    <h6>Communes couvertes</h6>
+                    <h3>{{ total_communes }}</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card card-kpi shadow-sm">
+                <div class="card-body">
+                    <h6>Ministères</h6>
+                    <h3>{{ total_ministeres }}</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card card-kpi shadow-sm">
+                <div class="card-body">
+                    <h6>Dernière mise à jour</h6>
+                    <h6>{% now "d/m/Y H:i" %}</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<body><center>
+    <div>
+        <h1>Bienvenue</h1>
+    <p>Aujourd'hui nous sommes le : <span id="dateDuJour"></span></p>
+    <script>
+        // Crée un nouvel objet Date
+        const aujourdhui = new Date();
+
+        // Définit les options pour le formatage (ex: en français)
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
+        // Formate la date et l'insère dans la balise span
+        document.getElementById('dateDuJour').innerHTML = aujourdhui.toLocaleDateString('fr-FR', options);
+    </script>
+  
+   
+    </div>
+  <div>
+    <center>
+  <img src="" alt="" >
+    </center>
+    </div>
+    <center>
+        *****************************************
+    </center>
+    </div>
+
+    <div>
+    <center>
+  <img src="media/qrcode.png" alt="Description de l'image" width="300" height="200">
+    </center>
+    </div>
+  <div> 
+    <a href="http://192.168.1.11:8000/login" target="_blank" class="btn">
+  Se connecter
+</a>
+
+<style>
+  
+  .btn {
+    display: inline-block;
+    padding: 12px 20px;
+    background-color: #2563eb;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+  }
+  .btn:hover {
+    background-color: #1e40af;
+  }
+  </div>
+</style>
+ </center>
+</body>
+</html>
